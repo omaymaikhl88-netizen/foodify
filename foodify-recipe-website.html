@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodify - Simple Recipes for Everyday Cooking</title>
+    <style>
+        /* ==================== RESET & BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #faf9f6;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d5016;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #ff8c42;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff8c42;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            background: linear-gradient(135deg, #e8f5e9 0%, #fff9e6 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #2d5016;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: #ff8c42;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.4);
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* ==================== RECIPE CARDS ==================== */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Recipe Image Placeholders */
+        .recipe-card:nth-child(1) .recipe-image {
+            background: linear-gradient(135deg, #ff8c42 0%, #ffb142 100%);
+        }
+
+        .recipe-card:nth-child(2) .recipe-image {
+            background: linear-gradient(135deg, #66bb6a 0%, #81c784 100%);
+        }
+
+        .recipe-card:nth-child(3) .recipe-image {
+            background: linear-gradient(135deg, #ffa726 0%, #ffb74d 100%);
+        }
+
+        .recipe-card:nth-child(4) .recipe-image {
+            background: linear-gradient(135deg, #8bc34a 0%, #9ccc65 100%);
+        }
+
+        .recipe-card:nth-child(5) .recipe-image {
+            background: linear-gradient(135deg, #ff7043 0%, #ff8a65 100%);
+        }
+
+        .recipe-card:nth-child(6) .recipe-image {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .recipe-content {
+            padding: 1.5rem;
+        }
+
+        .recipe-content h3 {
+            color: #2d5016;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+
+        .recipe-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .recipe-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* ==================== FILTER SECTION ==================== */
+        .filter-section {
+            background-color: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .filter-tag {
+            padding: 0.8rem 1.8rem;
+            background-color: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            color: #555;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover {
+            background-color: #ff8c42;
+            border-color: #ff8c42;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
+        }
+
+        /* ==================== PREPARATION TIME SECTION ==================== */
+        .time-section {
+            background: linear-gradient(135deg, #fff9e6 0%, #e8f5e9 100%);
+            padding: 4rem 2rem;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .time-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .time-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .time-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .time-card h3 {
+            color: #2d5016;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-card p {
+            color: #777;
+            font-size: 1rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background-color: #2d5016;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #ff8c42;
+            text-decoration: none;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .recipe-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tags {
+                gap: 0.8rem;
+            }
+
+            .filter-tag {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .time-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <nav>
+            <div class="logo">Food<span>ify</span></div>
+            <ul class="nav-links">
+                <li><a href="#recipes">Recipes</a></li>
+                <li><a href="#ingredients">Ingredients</a></li>
+                <li><a href="#time">Prep Time</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Simple Recipes for Everyday Cooking</h1>
+            <p>Discover delicious, easy-to-make recipes that fit your busy lifestyle. From quick meals to healthy options, we've got you covered.</p>
+            <a href="#recipes" class="cta-button">Explore Recipes</a>
+        </div>
+    </section>
+
+    <!-- ==================== EASY RECIPES SECTION ==================== -->
+    <section id="recipes">
+        <h2 class="section-title">Easy Recipes</h2>
+        <p class="section-subtitle">Quick and delicious meals anyone can make</p>
+        
+        <div class="recipe-grid">
+            <!-- Recipe Card 1 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Avocado Toast Deluxe</h3>
+                    <p>Creamy avocado on toasted bread with cherry tomatoes, olive oil, and a sprinkle of sea salt. Perfect for breakfast or brunch.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 10 min</span>
+                        <span>👤 2 servings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Card 2 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Mediterranean Quinoa Bowl</h3>
+                    <p>Nutritious quinoa topped with cucumber, feta cheese, olives, and a lemon-herb dressing. Healthy and satisfying.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 20 min</span>
+                        <span>👤 3 servings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Card 3 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Honey Garlic Chicken</h3>
+                    <p>Tender chicken glazed with sweet honey and savory garlic sauce. Serve with rice or vegetables for a complete meal.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 30 min</span>
+                        <span>👤 4 servings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Card 4 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Caprese Salad Fresh</h3>
+                    <p>Classic Italian salad with fresh mozzarella, ripe tomatoes, basil leaves, and balsamic glaze. Light and refreshing.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 10 min</span>
+                        <span>👤 2 servings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Card 5 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Spicy Shrimp Tacos</h3>
+                    <p>Seasoned shrimp in soft tortillas with cabbage slaw, avocado, and zesty lime crema. A flavor explosion in every bite.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 25 min</span>
+                        <span>👤 4 servings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Card 6 -->
+            <div class="recipe-card">
+                <div class="recipe-image"></div>
+                <div class="recipe-content">
+                    <h3>Green Smoothie Bowl</h3>
+                    <p>Nutrient-packed smoothie bowl with spinach, banana, mango, topped with granola and fresh berries. Start your day right.</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 10 min</span>
+                        <span>👤 1 serving</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FILTER BY INGREDIENTS ==================== -->
+    <section id="ingredients" class="filter-section">
+        <h2 class="section-title">Filter by Ingredients</h2>
+        <p class="section-subtitle">Find recipes based on what you have in your kitchen</p>
+        
+        <div class="filter-tags">
+            <div class="filter-tag">🥑 Avocado</div>
+            <div class="filter-tag">🍅 Tomato</div>
+            <div class="filter-tag">🧀 Cheese</div>
+            <div class="filter-tag">🍗 Chicken</div>
+            <div class="filter-tag">🍤 Seafood</div>
+            <div class="filter-tag">🥬 Leafy Greens</div>
+            <div class="filter-tag">🍋 Lemon</div>
+            <div class="filter-tag">🧄 Garlic</div>
+            <div class="filter-tag">🌶️ Spicy</div>
+            <div class="filter-tag">🥕 Vegetables</div>
+            <div class="filter-tag">🍚 Rice</div>
+            <div class="filter-tag">🍝 Pasta</div>
+        </div>
+    </section>
+
+    <!-- ==================== PREPARATION TIME SECTION ==================== -->
+    <section id="time" class="time-section">
+        <h2 class="section-title">Preparation Time</h2>
+        <p class="section-subtitle">Choose recipes based on how much time you have</p>
+        
+        <div class="time-grid">
+            <div class="time-card">
+                <div class="time-icon">⚡</div>
+                <h3>15 min</h3>
+                <p>Quick & Easy</p>
+            </div>
+            <div class="time-card">
+                <div class="time-icon">⏱️</div>
+                <h3>30 min</h3>
+                <p>Moderate Prep</p>
+            </div>
+            <div class="time-card">
+                <div class="time-icon">🕐</div>
+                <h3>1 hour</h3>
+                <p>Worth the Wait</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>&copy; 2025 Foodify. All rights reserved.</p>
+        <p>Made with ❤️ for food lovers everywhere</p>
+    </footer>
+</body>
+</html>
